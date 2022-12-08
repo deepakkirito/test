@@ -1,0 +1,197 @@
+.AddProduct {
+
+    form {
+
+        h2 {}
+
+        div {
+
+            background-color: rgb(107, 59, 88);
+            display: flex;
+            flex-wrap: wrap;
+            width: 70%;
+            margin: auto;
+            margin-top: 5%;
+            border: 2px solid rgb(107, 59, 88);
+            border-radius: 5px;
+            padding-bottom: 1%;
+
+            .left {
+                display: flex;
+                flex-wrap: wrap;
+                width: 55%;
+                // display: none;
+                margin-top: 20px;
+
+                h2 {
+                    color: whitesmoke;
+                    letter-spacing: 1px;
+                    display: block;
+                    // cursor: ;
+
+                }
+
+                div {
+                    // display: flex;
+                    // flex-wrap: wrap;
+                    width: 100%;
+                    margin: 0px 15px;
+
+
+                    p {
+                        color: whitesmoke;
+                        letter-spacing: 1px;
+                        // padding: 10%;
+                        font-size: 19px;
+                    }
+
+                    textarea {
+                        height: 150px;
+
+                    }
+
+                    input,
+                    textarea,
+                    select {
+                        width: 100%;
+                        border: none;
+                        padding: 15px;
+                        background-color: rgb(190, 166, 181);
+                        color: rgba(71, 32, 56, 0.920);
+                        border: none;
+                        display: block;
+                        // margin: auto;
+                        // margin-bottom: 5%;
+                        border-radius: 2px;
+                        font-size: 15px;
+
+                        &:hover {
+                            // outline: none;
+                            box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
+                        }
+
+                        &:focus {
+                            outline: none;
+                            // background-color: rgba(71, 32, 56, 0.269);
+                            background-color: rgb(216, 189, 206);
+                            box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
+                        }
+                    }
+
+                    div {
+                        display: grid;
+                        // flex-wrap: wrap;
+                        // grid-template-columns: auto auto;
+                        // display: none;
+
+                        display: flex;
+                        width: 40%;
+                        margin: 0px 43px 0px 0px;
+
+                        p {}
+
+                        input {
+                            width: 80%;
+                        }
+
+                    }
+                }
+            }
+
+            .right {
+                width: 24%;
+                margin-top: 13%;
+                // text-align: center;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border: 2px solid rgb(83, 45, 68);
+                    padding: 5px;
+                    background-color: rgb(166, 118, 147);
+                }
+
+                input {
+                    // width: auto;
+                    border-radius: 5px;
+                    margin-left: 10px;
+                    margin-top: 20px;
+                    border: 2px solid whitesmoke;
+                    text-align: center;
+                    padding: 15px;
+                    background-color: rgba(83, 45, 68, 0.733);
+                    box-shadow: 0px 0px 15px rgba(215, 202, 210, 0.699);
+
+                    &:active {
+                        box-shadow: 0px 0px 5px rgba(215, 202, 210, 0.699);
+
+                    }
+                }
+
+                button {
+                    display: block;
+                    margin: auto;
+                    // width: 40%;
+                    padding: 17px;
+                    font-weight: bolder;
+                    font-size: 17px;
+                    margin-top: 40px;
+                    border: none;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    height: 60px;
+                    opacity: 0.8;
+
+                    &:hover {
+                        // outline: none;
+                        box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
+                    }
+
+                    &:active {
+                        // background-color: rgba(71, 32, 56, 0.269);
+                        background-color: rgb(216, 189, 206);
+                        box-shadow: 0px 0px 15px rgb(175, 97, 97);
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    .Addbutton {
+        flex-wrap: nowrap;
+        display: block;
+        margin: auto;
+        // width: 40%;
+        padding: 17px;
+        font-weight: bolder;
+        font-size: 17px;
+        margin-top: 40px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        height: 60px;
+        // opacity: 0.8;
+        background-color: rgb(107, 59, 88);
+        color: whitesmoke;
+        margin-bottom: 5%;
+
+
+        &:hover {
+            // outline: none;
+            box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
+        }
+
+        &:active {
+            // background-color: rgba(71, 32, 56, 0.269);
+            box-shadow: 0px 0px 15px rgb(175, 97, 97);
+        }
+        
+        &:disabled {
+            background-color: rgb(216, 189, 206);
+            cursor: not-allowed;
+
+        }
+    }
+}
