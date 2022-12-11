@@ -37,7 +37,7 @@ form {
             font-size: 20px;
             margin-left: 25px;
         }
-        
+
         select {
             margin-left: 25px;
             width: 95%;
@@ -54,6 +54,7 @@ form {
 
             &:hover {
                 // outline: none;
+                cursor: pointer;
                 box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
             }
 
@@ -64,7 +65,11 @@ form {
                 box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
             }
 
-            option {}
+            option {
+                &:hover {
+                    cursor: pointer;
+                }
+            }
         }
     }
 
@@ -78,11 +83,11 @@ form {
             height: auto;
 
             p {
-                font-size: 20px;
+                font-size: 25px;
                 margin-left: 25px;
                 font-weight: bolder;
             }
-            
+
             img {
                 width: 60%;
                 // height: 50%;
@@ -109,19 +114,30 @@ form {
                 text-decoration: none;
                 height: 60px;
                 opacity: 0.8;
-                border: 1px solid  rgba(179, 131, 131, 0.92);
+                border: 1px solid rgba(179, 131, 131, 0.92);
                 background-color: rgba(71, 32, 56, 0.920);
                 box-shadow: 0px 0px 5px rgba(179, 131, 131, 0.92);
 
                 &:hover {
                     // outline: none;
+                    cursor: pointer;
                     box-shadow: 0px 0px 15px rgba(179, 131, 131, 0.92);
                 }
-    
+
                 &:active {
                     // background-color: rgba(71, 32, 56, 0.269);
                     // background-color: rgb(216, 189, 206);
                     box-shadow: 0px 0px 15px rgb(175, 97, 97);
+                }
+
+                div {
+                    // margin-bottom: 0px;
+                    width: auto;
+                    height: auto;
+                    padding: 5px 4px 3px 4px;
+                    position: relative;
+                    top: -10px;
+                    box-shadow: 0px 0px 0px rgb(132 59 104);
                 }
             }
         }
@@ -135,20 +151,18 @@ form {
             h2 {
                 margin-bottom: 0px;
             }
-            
+
             div {
                 margin-top: 2.5px;
                 box-shadow: none;
                 height: 100%;
                 background-color: rgba(245, 222, 179, 0);
-                
+
                 div {
                     background-color: rgba(245, 222, 179, 0);
                     display: block;
 
-                    p {
-
-                    }
+                    p {}
 
                     input {
                         width: 75%;
@@ -166,8 +180,9 @@ form {
                         &:hover {
                             // outline: none;
                             box-shadow: 0px 0px 15px rgba(175, 97, 97, 0.92);
+                            cursor: text;
                         }
-            
+
                         &:focus {
                             outline: none;
                             // background-color: rgba(71, 32, 56, 0.269);
@@ -180,33 +195,37 @@ form {
 
                 button {
                     display: block;
-                margin: auto;
-                color: rgba(245, 245, 245, 0.838);
-                // width: 40%;
-                padding: 17px;
-                font-weight: bolder;
-                font-size: 17px;
-                margin-top: 40px;
-                margin-bottom: 20px;
-                // border: none;
-                border-radius: 5px;
-                text-decoration: none;
-                height: 60px;
-                opacity: 0.8;
-                border: 1px solid  rgba(179, 131, 131, 0.92);
-                background-color: rgba(71, 32, 56, 0.920);
-                box-shadow: 0px 0px 5px rgba(179, 131, 131, 0.92);
+                    margin: auto;
+                    color: rgba(245, 245, 245, 0.838);
+                    // width: 40%;
+                    padding: 17px;
+                    font-weight: bolder;
+                    font-size: 17px;
+                    margin-top: 40px;
+                    margin-bottom: 20px;
+                    // border: none;
+                    border-radius: 5px;
+                    text-decoration: none;
+                    height: 60px;
+                    opacity: 0.8;
+                    border: 1px solid rgba(179, 131, 131, 0.92);
+                    background-color: rgba(71, 32, 56, 0.920);
+                    box-shadow: 0px 0px 5px rgba(179, 131, 131, 0.92);
 
-                &:hover {
-                    // outline: none;
-                    box-shadow: 0px 0px 15px rgba(179, 131, 131, 0.92);
-                }
-    
-                &:active {
-                    // background-color: rgba(71, 32, 56, 0.269);
-                    // background-color: rgb(216, 189, 206);
-                    box-shadow: 0px 0px 15px rgb(175, 97, 97);
-                }
+                    &:hover {
+                        // outline: none;
+                        box-shadow: 0px 0px 15px rgba(179, 131, 131, 0.92);
+                    }
+
+                    &:active {
+                        // background-color: rgba(71, 32, 56, 0.269);
+                        // background-color: rgb(216, 189, 206);
+                        box-shadow: 0px 0px 15px rgb(175, 97, 97);
+                    }
+
+                    &:disabled {
+                        opacity: 0.2;
+                    }
                 }
             }
         }

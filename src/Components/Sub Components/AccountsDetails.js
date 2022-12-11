@@ -2,243 +2,315 @@ import { clear } from '@testing-library/user-event/dist/clear';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import classes from '../../Styles/Sub Styles/AccountsDetails.module.scss';
+import AddImage from '../Sub Components/AddImage'
 
 const url = 'https://reactmusicplayer-ab9e4.firebaseio.com/project-data.json ';
 
 function AccountsDetails() {
 
-  // clear()
-
+  const [update, setUpdate] = useState('');
+  const [account, setAccount] = useState('');
+  const [accountType, setAccountType] = useState('Select account');
+  const [accountData, setAccountData] = useState('');
+  const [updatedData, setUpdatedData] = useState('');
+  const [updatedAccount, setUpdatedAccount] = useState('');
+  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState('')
   const [info, setInfo] = useState('');
-  var [Updateinfo, setUpdateinfo] = useState({
-    // 'profilePic': 'https://secure.gravatar.com/avatar/162f449adec6858c50e279ab862834ee?s=70&d=https%3A%2F%2Fwww.orbitmedia.com%2Fwp-content%2Fthemes%2Forbit-media%2Fimages%2Fno-image-speaker.jpg&r=g',
-    // 'name': 'Select Account',
-    // 'email': 'Select Account',
-    // 'password': 'Select Account',
-    // 'phone': 'Select Account'
-  });
+
+
+
+  // console.log(localStorage.getItem("accountType"))
+
+  useEffect(() => {
+    axios.get(url).then(response => {
+
+
+
+      if (!localStorage.getItem("accountType")) {
+        // console.log('true')       
+
+        const jsonObj1 = JSON.stringify(Object.keys(response.data.accountsPage));
+        const jsonObj2 = JSON.stringify(Object.values(response.data.accountsPage));
+        localStorage.setItem("account", jsonObj1);
+        localStorage.setItem("accountType", jsonObj2);
+        const str1 = localStorage.getItem("account");
+        const str2 = localStorage.getItem("accountType");
+        const parsedObj1 = JSON.parse(str1);
+        const parsedObj2 = JSON.parse(str2);
+        setAccount(parsedObj1)
+        setAccountData(parsedObj2)
+
+      } else {
+        const str1 = localStorage.getItem("account");
+        const str2 = localStorage.getItem("accountType");
+        const parsedObj1 = JSON.parse(str1);
+        const parsedObj2 = JSON.parse(str2);
+        setAccount(parsedObj1)
+        setAccountData(parsedObj2)
+        // console.log(parsedObj2)
+
+
+      }
+    })
+  }, [])
 
   useEffect(() => {
 
-    axios.get(url).then(response => {
-
-      setInfo(response.data.accountsPage)
-      // console.log(response.data)
-    }).catch((err) => {
-      // console.log(err)
+    account && accountType != 'Select account' && account.map((acc, i) => {
+      // console.log(acc,i)
+      acc == accountType && setInfo(accountData[i])
     })
+    account && accountType == 'Select account' && setInfo('')
+    // console.log('w')
+  }, [accountType, update])
 
-  }, [])
+  useEffect(() => {
+    if (updatedData.profilePic && Object.keys(info.profilePic).length > 10  && imageUrl == '') {
+      setImageUrl(URL.createObjectURL(updatedData.profilePic));
+    }
+    
+    // info && console.log(Object.keys(info.profilePic).length)
+    if (info && Object.keys(info.profilePic).length > 10 && imageUrl == '') {
+      // account != '' && console.log(accountData)
+      // setImageUrl(URL.createObjectURL(info.profilePic));
+      // info.profilePic = URL.createObjectURL(info.profilePic);
 
-  const [test, setTest] = useState({
-    val: {
-      profilePic: 'https://secure.gravatar.com/avatar/162f449adec6858c50e279ab862834ee?s=70&d=https%3A%2F%2Fwww.orbitmedia.com%2Fwp-content%2Fthemes%2Forbit-media%2Fimages%2Fno-image-speaker.jpg&r=g',
-      name: 'Select Account',
-      email: 'Select Account',
-      password: 'Select Account',
-      phone: 'Select Account'
-    },
-    accounttype: window.localStorage.getItem('account type')
-  });
+    }
 
-  // window.localStorage.setItem('info', test)
-  // console.log(Object.values(window.localStorage.getItem('info')))
-
-  if (info != null) {
-
-    // console.log(info);
-
-    var AccountType = (e) => {
-
-      // console.log(e.target.value)
-
-      var ctr = 0;
-
-      Object.keys(info).map((a, i) => {
+  }, [updatedData.profilePic, accountType]);
 
 
-        if (e.target.value == a) {
-
-          ctr++;
-          console.log(Object.values(info)[i]);
-          window.localStorage.setItem('account type', Object.values(info)[i])
-
-          setTest({
-            val: Object.values(info)[i],
-            // accounttype: window.localStorage.getItem('account type')
-          }
-          );
-
-        } if (ctr == 0) {
-
-          setTest({
-            val: {
-              profilePic: 'https://secure.gravatar.com/avatar/162f449adec6858c50e279ab862834ee?s=70&d=https%3A%2F%2Fwww.orbitmedia.com%2Fwp-content%2Fthemes%2Forbit-media%2Fimages%2Fno-image-speaker.jpg&r=g',
-              name: 'Select Account',
-              email: 'Select Account',
-              password: 'Select Account',
-              phone: 'Select Account'
-            }
+  useEffect(() => {
+    Object.keys(info).map((key, i) => {
+      Object.keys(updatedData).map((ukey, j) => {
+        if (key == ukey) {
+          setInfo({
+            ...info, [ukey]: Object.values(updatedData)[j]
           })
+        } 
+        // else if(key == ukey && ukey == 'profilePic') {
+        //   if(Object.keys(updatedData.profilePic).length > 0) {
+            
+        //     setInfo({
+        //       ...info, [ukey]: updatedData.profilePic
+        //     })
+        //   } else {
+        //     setInfo({
+        //       ...info, [ukey]: Object.values(updatedData)[j]
+        //     })
+
+        //   }
+
+        // }
+      })
+    })
+  }, [updatedData])
+
+  useEffect(() => {
+    if (update == 'true') {
+      // accountData.push(info)
+
+      // console.log(accountData)
+      account && account.map((type, i) => {
+        if (type == accountType) {
+          setAccountData(current => current.map((val, j) => {
+            if (i == j) {
+
+              return info
+            } else {
+              return val
+            }
+          }))
         }
       })
+      setUpdate('false');
     }
 
-    // console.log(test.val.profilePic)
-
-    // var UpdateInfo = {}
-
-
-    var Data = (values) => {
-      // console.log(values.value)
-      // setTest
-      // console.log(values.name)
-      // console.log(Updateinfo)
-    }
-
-    var Update = () => {
-
-      console.log(window.localStorage.getItem('name'))
-      // console.log(test)
-
-      setUpdateinfo({
-        val: {
-          'name': window.localStorage.getItem('name'),
-          'email': window.localStorage.getItem('email'),
-          'password': window.localStorage.getItem('password'),
-          'phone': window.localStorage.getItem('phone')
-        }
-      })
-
-    }
-    console.log(Updateinfo)
-
-    var Updatevalue = (values) => {
-
-      // console.log(val.value)
-
-      // setUpdateinfo({
-      //   'name': values.name == 'name' && values.value,
-      //   'email': values.name == 'email' && values.value,
-      //   'password': values.name == 'password' && values.value,
-      //   'phone': values.name == 'phone' && values.value
-      // })
-
-      window.localStorage.setItem('name', values.name == 'name' && values.value != false ? values.value : window.localStorage.getItem('name'))
-      window.localStorage.setItem('email', values.name == 'email' && values.value != false ? values.value : window.localStorage.getItem('email'))
-      window.localStorage.setItem('password', values.name == 'password' && values.value != false ? values.value : window.localStorage.getItem('password'))
-      window.localStorage.setItem('phone', values.name == 'phone' && values.value != false ? values.value : window.localStorage.getItem('phone'))
+    if (update == 'false') {
+      const jsonObj2 = JSON.stringify(accountData);
+      localStorage.setItem("accountType", jsonObj2);
 
     }
 
+  }, [update])
+
+  account && console.log(info, imageUrl)
+
+  useEffect(() => {
+    if (updatedAccount == 'true') {
+      const jsonObj2 = JSON.stringify(accountData);
+      localStorage.setItem("accountType", jsonObj2);
+
+      const jsonObj1 = JSON.stringify(account);
+      localStorage.setItem("account", jsonObj1);
+
+      setUpdatedAccount('')
+    }
+
+  }, [updatedAccount])
+
+
+  if (account != '') {
+
+    var AccountType = (type) => {
+      // console.log(type.value)
+      setAccountType(type.value)
+    }
 
     var submit = event => {
-
-      // console.log(Updateinfo)
       event.preventDefault();
-      console.log('form submitted ✅');
     };
+
+    var AccountInfo = (key, value, img) => {
+      // console.log(key, value)
+      if (key == 'profilePic') {
+        setUpdatedData({
+          ...updatedData, [key]: img.files[0]
+        })
+      } else {
+        setUpdatedData({
+          ...updatedData, [key]: value
+        })
+      }
+    }
+
+    var UploadImage = () => {
+      // console.log(image)
+    }
+
+    var UpdateAccount = () => {
+      setUpdate('true');
+      alert('Account Updated Successfully')
+    }
+
+    var DeleteAccount = () => {
+      account && account.map((type, i) => {
+        if (type == accountType) {
+          setAccountData(current => current.filter((val, j) => {
+            if (i != j) {
+              return val
+            }
+
+          }))
+
+          setAccount(current => current.filter((val, j) => {
+            if (i != j) {
+              return val
+            }
+
+          }))
+        }
+      })
+      setUpdatedAccount('true')
+      alert('Account Deleted Successfully')
+    }
   }
 
   return (
     <div className={classes.AccountsDetails}>
 
-      <div>
+      <div onChange={(e) => { AccountType(e.target) }}>
 
         <h2>List of Accounts</h2>
         <p>Accounts</p>
-        <select onClick={AccountType}>
+        <select>
           <option>Select account</option>
-          <option>Admin</option>
-          <option>Editor</option>
-          <option>Merchant</option>
-          <option>Customer</option>
+          {account && account.map((type) => {
+            return <option>{type}</option>
+          })}
         </select>
-
       </div>
 
-      <form onSubmit={submit} onChange={(e) => { Data(e.target) }}>
+      <form
+        onSubmit={submit}
+        onChange={(e) => { AccountInfo(e.target.name, e.target.value, e.target) }}
+      >
 
         <div className={classes.left}>
 
           <p>Change Avatar</p>
-          <img title='Image Not Available' src={info != null ? test.val.profilePic : 'https://secure.gravatar.com/avatar/162f449adec6858c50e279ab862834ee?s=70&d=https%3A%2F%2Fwww.orbitmedia.com%2Fwp-content%2Fthemes%2Forbit-media%2Fimages%2Fno-image-speaker.jpg&r=g'}></img>
+          <img
+            title={account != '' && info != '' ? info.profilePic == '' ? 'New Image' : accountType : 'Image Not available'}
+            src={imageUrl != '' ? imageUrl : account != '' && info != '' ? info.profilePic == '' ? 'Not available' : info.profilePic : 'https://secure.gravatar.com/avatar/162f449adec6858c50e279ab862834ee?s=70&d=https%3A%2F%2Fwww.orbitmedia.com%2Fwp-content%2Fthemes%2Forbit-media%2Fimages%2Fno-image-speaker.jpg&r=g'}
+
+          ></img>
+
           <button
-            disabled={info != null && test.val.name == 'Select Account'}
-            style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
-          >UPLOAD NEW PHOTO</button>
+            disabled={account != '' && accountType == 'Select account' ? true : false}
+            style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+            onClick={UploadImage}
+          > <input
+            type="file"
+            name="profilePic"
+            disabled={account != '' && accountType == 'Select account' ? true : false}
+            style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+          ></input></button>
         </div>
 
         <div className={classes.right}>
 
           <h2>Account Settings</h2>
           <div>
-            <div>
 
+            <div>
               <p>Account Name</p>
               <input
+                style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                disabled={account != '' && accountType == 'Select account' ? true : false}
+                placeholder={accountType != 'Select account' ? '' : 'Select Account'}
+                defaultValue={info != '' ? info.name != '' ? info.name : 'Not Available' : ''}
                 type={'text'}
                 name={'name'}
-                onChange={e => { Updatevalue(e.target) }}
-                defaultValue={info != null ? test.val.name : 'Select Account'}
-                disabled={info != null && test.val.name == 'Select Account'}
-                style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+              // value={accountType != 'Select account' && ''}
               ></input>
-              {/* {console.log(info != null ? test.val.name : 'Select Account')} */}
-
             </div>
 
             <div>
-
               <p>Account Email</p>
               <input
+                style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                disabled={account != '' && accountType == 'Select account' ? true : false}
                 type={'email'}
                 name={'email'}
-                onChange={e => { Updatevalue(e.target) }}
-                defaultValue={info != null ? test.val.email : 'Select Account'}
-                disabled={info != null && test.val.name == 'Select Account'}
-                style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                placeholder={accountType != 'Select account' ? '' : 'Select Account'}
+                defaultValue={info != '' ? info.email != '' ? info.email : 'Not Available' : ''}
               ></input>
             </div>
 
             <div>
-
               <p>Password</p>
               <input
+                style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                disabled={account != '' && accountType == 'Select account' ? true : false}
                 type={'text'}
                 name={'password'}
-                onChange={e => { Updatevalue(e.target) }}
-                defaultValue={info != null ? test.val.password : 'Select Account'}
-                disabled={info != null && test.val.name == 'Select Account'}
-                style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                placeholder={accountType != 'Select account' ? '' : 'Select Account'}
+                defaultValue={info != '' ? info.password != '' ? info.password : 'Not Available' : ''}
               ></input>
             </div>
 
             <div>
-
               <p>Phone</p>
-              {/* {console.log(info != null ? test.val.name == '' ? 'Not Available' : test.val.name : 'Select Account')} */}
               <input
+                style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                disabled={account != '' && accountType == 'Select account' ? true : false}
                 type={'text'}
                 name={'phone'}
-                onChange={e => { Updatevalue(e.target) }}
-                defaultValue={info != null ? test.val.phone == '' ? 'Not Available' : test.val.phone : 'Select Account'}
-                disabled={info != null && test.val.name == 'Select Account'}
-                style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+                placeholder={accountType != 'Select account' ? '' : 'Select Account'}
+                defaultValue={info != '' ? info.phone != '' ? info.phone : 'Not Available' : ''}
               ></input>
             </div>
-            {/* {console.log(Updateinfo.name == 'Select Account')} */}
-            {console.log(test.val.name)}
             <button
-              disabled={info != null && test.val.name == 'Select Account'}
-              style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
-              onClick={Update}>UPDATE YOUR PROFILE</button>
+              onClick={UpdateAccount}
+              disabled={account != '' && updatedData == '' ? true : false}
+              style={account != '' && accountType == 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+            >UPDATE YOUR PROFILE</button>
             <button
-              disabled={info != null && test.val.name == 'Select Account'}
-              style={info != null && test.val.name == 'Select Account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
+              onClick={DeleteAccount}
+              disabled={account !== '' && accountType === 'Select account' ? true : false}
+              style={account !== '' && accountType === 'Select account' ? { 'cursor': 'not-allowed' } : { 'cursor': 'pointer' }}
             >DELETE YOUR ACCOUNT</button>
-            {/* console.log(info != null && test.val.name == 'Select Account' &&  'cursor': 'not-allowed'  ||  'cursor': 'pointer' ) */}
-
           </div>
         </div>
       </form>

@@ -17,7 +17,7 @@ function ProductDetails() {
   const [categories, setCategories] = useState('');
   const [categoriesNew, setCategoriesNew] = useState('');
   const [deleteProduct, setDeleteProduct] = useState('');
-  const NewProduct = useContext(contextData);
+  // const NewProduct = useContext(contextData);
 
   // console.log(NewProduct);
 
@@ -30,10 +30,22 @@ function ProductDetails() {
 
   useEffect(() => {
     axios.get(url).then(response => {
-      setInfo(response.data.productsPage);
+      // setInfo(response.data.productsPage);
       setProduct(response.data.productsPage.products);
       setCategories(response.data.productsPage.categories);
     })
+
+
+    // console.log(localStorage.getItem("product"))
+    if (localStorage.getItem("product") != '') {
+
+      const str = localStorage.getItem("product");
+      const parsedObj = JSON.parse(str);
+      setInfo(parsedObj)
+      localStorage.setItem('product', '');
+
+    }
+
 
 
     // axios.get(urlC).then(response => {
@@ -56,7 +68,11 @@ function ProductDetails() {
     //   console.log('w')
     // })
 
+
+
   }, []);
+
+  // console.log(info);
 
   useEffect(() => {
 
@@ -71,19 +87,24 @@ function ProductDetails() {
       console.log(categories, categoriesNew)
       setCategories(categories)
       setCategoriesNew('')
-      
+
     }
-    
+
   }, [categoriesNew, categories])
 
 
 
 
-  console.log(product, categories);
+  // console.log(product, categories);
 
 
   if (product != '') {
 
+    // info && product.push([info]);    setProduct(product);
+    if (info) {
+      product.push(info)
+      console.log(product)
+    }
 
     var imgDelete = (delPname) => {
 
@@ -147,32 +168,6 @@ function ProductDetails() {
 
       // console.log(categories);
     }
-
-    if (window.localStorage.getItem('pN') != '') {
-
-      console.log(window.localStorage.getItem('pN'))
-      let data = {
-        name: window.localStorage.getItem('pN'),
-        unitSold: 0,
-        stock: window.localStorage.getItem('uS'),
-        expireDate: window.localStorage.getItem('eD'),
-        description: window.localStorage.getItem('desc'),
-        category: window.localStorage.getItem('cat')
-      }
-      product.push(data)
-      // console.log(product)
-      // setProduct(product)
-      window.localStorage.setItem('uS', '')
-      window.localStorage.setItem('pN', '')
-      window.localStorage.setItem('desc', '')
-      window.localStorage.setItem('cat', '')
-      window.localStorage.setItem('eD', '')
-
-    }
-
-    console.log(categoriesNew)
-
-
   }
 
 
@@ -233,9 +228,9 @@ function ProductDetails() {
       <div className={classes.right}>
         <h2>Product Categories</h2>
         <div>
-          {categories!='' && categories.map(c => {
+          {categories != '' && categories.map(c => {
             return <div className={classes.categoryBar}>
-              {console.log(categories)}
+              {/* {console.log(categories)} */}
               <p>{c}</p>
               {/* {categoriesNew != '' && categoriesNew.map(cat => {
                 return <p>{cat}</p>
