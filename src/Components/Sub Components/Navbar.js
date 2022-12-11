@@ -3,9 +3,9 @@ import {
 } from "react-router-dom";
 
 import classes from '../../Styles/Sub Styles/Navbar.module.scss'
-import Dashboard from './Dashboard.png'
-import Products from './Products.png'
-import Accounts from './Accounts.png'
+// import Dashboard from './Dashboard.png'
+// import Products from './Products.png'
+// import Accounts from './Accounts.png'
 import { useState } from "react";
 
 function Navbar() {
